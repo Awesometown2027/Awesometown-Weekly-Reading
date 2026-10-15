@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -34,16 +34,24 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen pb-12">
 
+    <!-- Google Sites Embedded Warning/Launch Banner -->
+    <div id="iframeNotice" class="hidden bg-amber-500 text-white p-4 text-center font-bold shadow-md sticky top-0 z-50">
+        <p class="mb-2">⚠️ Microphone recording is restricted inside Google Sites embedding.</p>
+        <a id="openNewTabBtn" href="#" target="_blank" class="inline-block bg-white text-slate-900 px-6 py-2.5 rounded-xl shadow font-semibold hover:bg-slate-100 transition">
+            🚀 Click Here to Open Reading Assessment in Full Screen (Enables Mic)
+        </a>
+    </div>
+
     <!-- Top Header Navigation -->
-    <header class="bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3">
-            <div class="flex items-center space-x-3">
-                <div class="p-2.5 bg-white/20 backdrop-blur-md rounded-2xl border border-white/20">
-                    <i class="fa-solid font-bold fa-book-open text-2xl text-yellow-300"></i>
+    <header class="bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between flex-wrap gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-xl shadow-inner">
+                    📖
                 </div>
                 <div>
-                    <h1 class="text-xl md:text-2xl font-bold font-display tracking-wide">Reading & Fluency Check</h1>
-                    <p class="text-xs md:text-sm text-sky-100 font-medium">Grade 4 & 5 Assessment Portal</p>
+                    <h1 class="font-display font-bold text-lg md:text-xl leading-tight">Reading & Fluency Assessment</h1>
+                    <p class="text-xs text-sky-100">Grade 4 & Grade 5 Oral Reading Portal</p>
                 </div>
             </div>
             <div class="text-xs bg-white/10 px-3.5 py-1.5 rounded-xl border border-white/20 text-yellow-300 font-mono flex items-center gap-2">
@@ -198,188 +206,110 @@
     </div>
 
     <script>
-        // Weekly Passages Repository (Concise 60-80 words each, tagged by Grade 4, 4/5, and 5)
-        const weeklyPassagesData = [
-            // Week 1 (Oct 13 - Oct 19, 2026)
+
+        // =========================================================================
+        // 🚨 PASTE YOUR GOOGLE WEB APP URL BETWEEN THE QUOTES BELOW 🚨
+        // =========================================================================
+        const GOOGLE_SCRIPT_WEB_APP_URL = "PASTE_YOUR_GOOGLE_WEB_APP_URL_HERE"; 
+        // Example: "https://script.google.com/macros/s/AKfycbx.../exec"
+        // =========================================================================
+
+        // Detect if loaded inside a restricted Google Sites iframe
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.self !== window.top) {
+                const notice = document.getElementById('iframeNotice');
+                const btn = document.getElementById('openNewTabBtn');
+                if (notice && btn) {
+                    btn.href = window.location.href;
+                    notice.classList.remove('hidden');
+                }
+            }
+        });
+
+        // Weekly Passage Database (Grades 4, 4/5, 5 with concise texts ~60-80 words)
+        const weeklyPassageSchedule = [
             {
-                startDate: "2026-10-13",
-                weekLabel: "Oct 13 - Oct 19",
+                weekLabel: "Active Week",
                 items: [
                     {
                         title: "The Three Sisters Garden",
                         gradeLabel: "Grade 4",
                         text: [
-                            "Indigenous farmers created a smart way to grow food together called the Three Sisters. Corn, beans, and squash are planted in the same soil. The tall corn stalks support the climbing beans, while large squash leaves keep weeds away and moisture in the soil.",
-                            "Working together, these three plants produce a rich harvest while protecting the earth."
+                            "Many Indigenous nations plant corn, beans, and squash together in a garden called the Three Sisters. The tall corn stalks support the climbing beans. The beans add nutrients back into the soil. Wide squash leaves shade the ground to keep moisture in and stop weeds. Working together, these three plants help each other grow strong and supply nutritious food for the community."
                         ],
                         questions: [
-                            { id: "q1", question: "1. What function do the tall corn stalks serve?", options: ["A) Keeping weeds away", "B) Supporting climbing bean plants", "C) Trapping rainwater", "D) Providing shade"], correct: 1 },
-                            { id: "q2", question: "2. How do squash leaves help the garden?", options: ["A) Support beans", "B) Block weeds and retain moisture", "C) Repel bugs", "D) Produce seeds"], correct: 1 },
-                            { id: "q3", question: "3. What is the main idea of this reading passage?", options: ["A) How plants help each other grow", "B) Cooking wild corn", "C) Gardening tools", "D) Winter harvest"], correct: 0 }
+                            {
+                                id: "q1",
+                                question: "What does the tall corn stalk provide for the beans?",
+                                options: ["Shade from the sun", "Physical support to climb", "Extra water", "Protection from animals"],
+                                correct: 1
+                            },
+                            {
+                                id: "q2",
+                                question: "How do squash leaves help the garden?",
+                                options: ["They attract bees", "They add nitrogen", "They shade the ground to keep moisture", "They grow tall"],
+                                correct: 2
+                            },
+                            {
+                                id: "q3",
+                                question: "Why are these three plants called 'sisters'?",
+                                options: ["They taste the same", "They help each other grow strong together", "They were found in Europe", "They are all yellow"],
+                                correct: 1
+                            }
                         ]
                     },
                     {
                         title: "Dancing Northern Lights",
                         gradeLabel: "Grade 4/5",
                         text: [
-                            "High above northern Canada, green and purple ribbons of light swirl across the night sky. Scientists call this light display the aurora borealis. It happens when particles from the sun crash into gases in Earth's atmosphere.",
-                            "Cree elders share stories that these glowing lights are ancestors dancing softly in the sky."
+                            "In northern Canada, winter skies often glow with bright green and purple ribbons of light called the Aurora Borealis. Particles from the sun collide with gases in Earth’s atmosphere to create this brilliant display. Cree traditions tell stories of spirits dancing in the sky. Scientists and skywatchers come from around the world to marvel at this breathtaking natural phenomenon."
                         ],
                         questions: [
-                            { id: "q1", question: "1. What is the scientific name for the northern lights?", options: ["A) Atmosphere glow", "B) Aurora borealis", "C) Solar wind", "D) Arctic flare"], correct: 1 },
-                            { id: "q2", question: "2. What causes the light display?", options: ["A) Moon reflecting on ice", "B) Sun particles hitting atmospheric gas", "C) Lightning", "D) Stars exploding"], correct: 1 },
-                            { id: "q3", question: "3. How do Cree elders describe the lights?", options: ["A) Fire in space", "B) Ancestors dancing", "C) Falling rain", "D) Celestial birds"], correct: 1 }
+                            {
+                                id: "q1",
+                                question: "What causes the Aurora Borealis in the atmosphere?",
+                                options: ["Moonlight bouncing off ice", "Solar particles colliding with atmospheric gases", "City lights reflecting on clouds", "Lightning storms"],
+                                correct: 1
+                            },
+                            {
+                                id: "q2",
+                                question: "What colors are mentioned in the passage?",
+                                options: ["Red and blue", "Green and purple", "Yellow and orange", "White and silver"],
+                                correct: 1
+                            },
+                            {
+                                id: "q3",
+                                question: "What do Cree traditions say about the lights?",
+                                options: ["They are fireflies", "They are spirits dancing in the sky", "They mean winter is ending", "They are stars falling"],
+                                correct: 1
+                            }
                         ]
                     },
                     {
-                        title: "Building the Trans-Canada Railway",
+                        title: "Building the Transcontinental Railway",
                         gradeLabel: "Grade 5",
                         text: [
-                            "In the 1880s, thousands of Chinese workers moved to Canada to build the Canadian Pacific Railway through steep mountains. The work was dangerous and required immense endurance through bitter winter cold.",
-                            "Their dedication connected Canada from coast to coast, shaping the history and growth of our nation."
+                            "In the 1880s, thousands of Chinese workers moved to Canada to help build the Canadian Pacific Railway through the rugged Rocky Mountains. They completed dangerous work carving tunnels through solid granite and laying tracks. Their bravery and hard work connected eastern and western Canada, shaping the diverse nation we share today."
                         ],
                         questions: [
-                            { id: "q1", question: "1. During which decade was the railway built?", options: ["A) 1880s", "B) 1920s", "C) 1950s", "D) 1750s"], correct: 0 },
-                            { id: "q2", question: "2. What major obstacle did workers face?", options: ["A) Ocean waves", "B) Dangerous mountain work and cold", "C) Lack of wood", "D) Desert heat"], correct: 1 },
-                            { id: "q3", question: "3. What impact did the railway have on Canada?", options: ["A) It linked coasts", "B) It built lakes", "C) It created cities", "D) It stopped winter"], correct: 0 }
-                        ]
-                    }
-                ]
-            },
-            // Week 2 (Oct 20 - Oct 26, 2026)
-            {
-                startDate: "2026-10-20",
-                weekLabel: "Oct 20 - Oct 26",
-                items: [
-                    {
-                        title: "Sockeye Salmon Migration",
-                        gradeLabel: "Grade 4",
-                        text: [
-                            "Every autumn, salmon undertake an incredible freshwater journey in British Columbia. Sockeye salmon swim hundreds of kilometers upstream against strong river currents to return to the streams where they hatched.",
-                            "Along the riverbank, bears and eagles depend on returning salmon for food before winter arrives."
-                        ],
-                        questions: [
-                            { id: "q1", question: "1. Where do Sockeye salmon swim during migration?", options: ["A) Down into ocean depths", "B) Upstream against river currents", "C) Across quiet lakes", "D) Into warm southern bays"], correct: 1 },
-                            { id: "q2", question: "2. Why do salmon swim upstream?", options: ["A) To lay eggs where they hatched", "B) To find warm water", "C) To escape boats", "D) To search for ocean salt"], correct: 0 },
-                            { id: "q3", question: "3. Which animals rely on migrating salmon?", options: ["A) Wolves and deer", "B) Bears and eagles", "C) Beavers and ducks", "D) Owls and foxes"], correct: 1 }
-                        ]
-                    },
-                    {
-                        title: "The Boreal Forest Canopy",
-                        gradeLabel: "Grade 4/5",
-                        text: [
-                            "Canada’s boreal forest is one of the largest natural ecosystems on Earth. Evergreen trees like spruce and pine stay green all year, providing shelter for lynx, caribou, and songbirds.",
-                            "This vast green forest filters freshwater and traps carbon dioxide, keeping our planet's air clean and healthy."
-                        ],
-                        questions: [
-                            { id: "q1", question: "1. What type of trees dominate the boreal forest?", options: ["A) Maple and oak", "B) Spruce and pine", "C) Palm and eucalyptus", "D) Birch and apple"], correct: 1 },
-                            { id: "q2", question: "2. Name an animal that lives in the boreal forest.", options: ["A) Lynx", "B) Zebra", "C) Parrot", "D) Kangaroo"], correct: 0 },
-                            { id: "q3", question: "3. How does the boreal forest help Earth's air?", options: ["A) Traps carbon dioxide", "B) Creates windstorms", "C) Warms clouds", "D) Blocks sunshine"], correct: 0 }
-                        ]
-                    },
-                    {
-                        title: "The Maple Syrup Harvest",
-                        gradeLabel: "Grade 5",
-                        text: [
-                            "As winter turns into spring, maple tree sap begins to flow in eastern Canada. Indigenous peoples originally discovered how to collect clear sap from sugar maple trees and boil it down into sweet syrup.",
-                            "Today, modern sugar shacks continue this proud spring tradition across Ontario and Quebec."
-                        ],
-                        questions: [
-                            { id: "q1", question: "1. When does maple sap begin flowing?", options: ["A) Mid-summer", "B) Late autumn", "C) As winter turns into spring", "D) Deep winter"], correct: 2 },
-                            { id: "q2", question: "2. Who originally discovered how to make syrup?", options: ["A) European traders", "B) Indigenous peoples", "C) Railway workers", "D) Farmers in 1950"], correct: 1 },
-                            { id: "q3", question: "3. How is clear sap turned into syrup?", options: ["A) By freezing it", "B) By boiling it down", "C) By mixing with sugar", "D) By drying in sun"], correct: 1 }
-                        ]
-                    }
-                ]
-            },
-            // Week 3 (Oct 27 - Nov 02, 2026)
-            {
-                startDate: "2026-10-27",
-                weekLabel: "Oct 27 - Nov 02",
-                items: [
-                    {
-                        title: "Voices of Caribana",
-                        gradeLabel: "Grade 4",
-                        text: [
-                            "Every summer, Toronto hosts Caribana, a vibrant celebration of Caribbean culture. Colorful costumes, steel pan drums, and energetic music fill the streets as dancers parade together.",
-                            "This joyful festival brings communities together to honor freedom, heritage, and Caribbean traditions."
-                        ],
-                        questions: [
-                            { id: "q1", question: "1. Which city hosts the Caribana festival?", options: ["A) Vancouver", "B) Toronto", "C) Montreal", "D) Calgary"], correct: 1 },
-                            { id: "q2", question: "2. What instruments are highlighted in the parade?", options: ["A) Steel pan drums", "B) Violins", "C) Flutes", "D) Accordions"], correct: 0 },
-                            { id: "q3", question: "3. What is the main focus of Caribana?", options: ["A) Winter sports", "B) Celebrating Caribbean culture and heritage", "C) Boat racing", "D) Art competitions"], correct: 1 }
-                        ]
-                    },
-                    {
-                        title: "Polar Bears of Churchill",
-                        gradeLabel: "Grade 4/5",
-                        text: [
-                            "Churchill, Manitoba is known as the polar bear capital of the world. Every autumn, polar bears gather near Hudson Bay waiting for ocean water to freeze into thick sea ice.",
-                            "They use sea ice as a walking platform to hunt seals, their primary food source."
-                        ],
-                        questions: [
-                            { id: "q1", question: "1. What title is given to Churchill, Manitoba?", options: ["A) Bear Kingdom", "B) Polar bear capital of the world", "C) Arctic Forest", "D) Frozen Bay"], correct: 1 },
-                            { id: "q2", question: "2. Why do polar bears wait for sea ice?", options: ["A) To build dens", "B) As a platform to hunt seals", "C) To swim south", "D) To sleep"], correct: 1 },
-                            { id: "q3", question: "3. What is a polar bear's primary food source?", options: ["A) Berries", "B) Seals", "C) Fish", "D) Plants"], correct: 1 }
-                        ]
-                    },
-                    {
-                        title: "The Inuksuk Landmark",
-                        gradeLabel: "Grade 5",
-                        text: [
-                            "Inuit people build human-like stone structures across northern Canada called Inuksuit. Constructed from unworked rocks, these monuments serve as navigation markers across vast, treeless Arctic landscapes.",
-                            "An Inuksuk can point travelers toward safe pathways, rich fishing spots, or welcome friends warmly."
-                        ],
-                        questions: [
-                            { id: "q1", question: "1. Who originally builds Inuksuit?", options: ["A) Inuit people", "B) Settlers", "C) Sailors", "D) Miners"], correct: 0 },
-                            { id: "q2", question: "2. What materials are used to build an Inuksuk?", options: ["A) Wood and rope", "B) Unworked rocks", "C) Bricks and cement", "D) Ice blocks"], correct: 1 },
-                            { id: "q3", question: "3. What purpose does an Inuksuk serve?", options: ["A) Navigation and guidance", "B) Hunting tool", "C) Weather shelter", "D) Cooking stove"], correct: 0 }
-                        ]
-                    }
-                ]
-            },
-            // Default fallback / Future weeks auto-cycled
-            {
-                startDate: "2026-11-03",
-                weekLabel: "Active Weekly Cycle",
-                items: [
-                    {
-                        title: "The Great Lakes Ecosystem",
-                        gradeLabel: "Grade 4",
-                        text: [
-                            "The Great Lakes contain one-fifth of all fresh surface water on Earth. Millions of Canadians rely on these interconnected lakes for drinking water, shipping goods, and recreation.",
-                            "Protecting Great Lakes water quality ensures clean habitats for fish, birds, and surrounding towns."
-                        ],
-                        questions: [
-                            { id: "q1", question: "1. How much of Earth's fresh surface water is in the Great Lakes?", options: ["A) One-tenth", "B) One-fifth", "C) One-half", "D) All of it"], correct: 1 },
-                            { id: "q2", question: "2. Why are the Great Lakes important to Canadians?", options: ["A) For drinking water, shipping, and recreation", "B) For ocean salt", "C) For desert warmth", "D) For gold mining"], correct: 0 },
-                            { id: "q3", question: "3. What is key to preserving habitats in the Great Lakes?", options: ["A) Building dams", "B) Protecting water quality", "C) Draining water", "D) Clearing trees"], correct: 1 }
-                        ]
-                    },
-                    {
-                        title: "Lunar New Year Celebrations",
-                        gradeLabel: "Grade 4/5",
-                        text: [
-                            "In early spring, Chinese-Canadian families gather to celebrate Lunar New Year. Red paper lanterns are hung, red envelopes with good wishes are shared, and dragon dancers march down city streets.",
-                            "These joyous celebrations bring hopes of good health, happiness, and prosperity for the coming year."
-                        ],
-                        questions: [
-                            { id: "q1", question: "1. What colored envelopes are shared during Lunar New Year?", options: ["A) Blue", "B) Red", "C) Yellow", "D) Green"], correct: 1 },
-                            { id: "q2", question: "2. What do dragon dances and lanterns celebrate?", options: ["A) Winter sports", "B) Lunar New Year", "C) Autumn harvest", "D) Summer break"], correct: 1 },
-                            { id: "q3", question: "3. What do families wish for during Lunar New Year?", options: ["A) Cold snow", "B) Health, happiness, and prosperity", "C) Rainstorms", "D) Early nights"], correct: 1 }
-                        ]
-                    },
-                    {
-                        title: "Space Canadian Arm 2",
-                        gradeLabel: "Grade 5",
-                        text: [
-                            "Canadarm2 is a robotic arm built in Canada that works on the International Space Station. Astronauts use it to move heavy supplies, repair space equipment, and catch visiting cargo ships.",
-                            "This advanced technology showcases Canadian engineering and innovation in space exploration."
-                        ],
-                        questions: [
-                            { id: "q1", question: "1. Where is Canadarm2 located?", options: ["A) On the Moon", "B) International Space Station", "C) On Mars", "D) In Vancouver"], correct: 1 },
-                            { id: "q2", question: "2. What task can Canadarm2 perform?", options: ["A) Moving supplies and repairing equipment", "B) Flying to the sun", "C) Taking photos of stars", "D) Cooking meals"], correct: 0 },
-                            { id: "q3", question: "3. What does Canadarm2 demonstrate?", options: ["A) Canadian space technology and innovation", "B) Ancient tools", "C) Ocean boats", "D) Weather forecasting"], correct: 0 }
+                            {
+                                id: "q1",
+                                question: "What major landmark did Chinese workers help build railway tracks through?",
+                                options: ["The Atlantic Ocean", "The Rocky Mountains", "The Arctic tundra", "The Niagara River"],
+                                correct: 1
+                            },
+                            {
+                                id: "q2",
+                                question: "Why was this railway work important for Canada?",
+                                options: ["It brought cars to Canada", "It connected eastern and western Canada", "It built the first school", "It created gold mines"],
+                                correct: 1
+                            },
+                            {
+                                id: "q3",
+                                question: "In which decade did this construction take place?",
+                                options: ["1990s", "1750s", "1880s", "2010s"],
+                                correct: 2
+                            }
                         ]
                     }
                 ]
@@ -388,19 +318,9 @@
 
         let currentPassagesList = [];
 
-        // Determine current weekly set based on today's date
         function getCurrentWeekPassages() {
-            const now = new Date();
-            const todayStr = now.toISOString().split('T')[0];
-
-            let selectedWeek = weeklyPassagesData[0];
-            for (let i = 0; i < weeklyPassagesData.length; i++) {
-                if (todayStr >= weeklyPassagesData[i].startDate) {
-                    selectedWeek = weeklyPassagesData[i];
-                }
-            }
-            
-            document.getElementById('currentWeekBadge').textContent = `Week: ${selectedWeek.weekLabel}`;
+            let selectedWeek = weeklyPassageSchedule[0];
+            document.getElementById('currentWeekBadge').textContent = `${selectedWeek.weekLabel}`;
             return selectedWeek.items;
         }
 
@@ -480,7 +400,6 @@
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 audioChunks = [];
                 
-                // Select supported MIME type across browsers
                 let options = {};
                 if (MediaRecorder.isTypeSupported('audio/webm')) {
                     options = { mimeType: 'audio/webm' };
@@ -567,6 +486,19 @@
             timerDisplay.textContent = "00:00";
         }
 
+        // Convert Blob to Base64 String for Web App Upload
+        function blobToBase64(blob) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const base64data = reader.result.split(',')[1];
+                    resolve(base64data);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+
         // Form Submission
         const assessmentForm = document.getElementById('assessmentForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -593,12 +525,46 @@
             });
 
             submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Submitting...`;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Submitting to Google Drive...`;
 
-            // Download audio file locally for teacher review
+            let uploadSuccess = false;
+
+            // Send payload to Google Web App if URL configured
+            if (GOOGLE_SCRIPT_WEB_APP_URL && GOOGLE_SCRIPT_WEB_APP_URL !== "PASTE_YOUR_GOOGLE_WEB_APP_URL_HERE") {
+                try {
+                    const audioBase64 = await blobToBase64(recordedAudioBlob);
+                    const payload = {
+                        studentName: studentName,
+                        passageTitle: passageData.title,
+                        gradeLabel: passageData.gradeLabel,
+                        score: score,
+                        totalQuestions: passageData.questions.length,
+                        audioBase64: audioBase64,
+                        mimeType: recordedAudioBlob.type || "audio/webm"
+                    };
+
+                    await fetch(GOOGLE_SCRIPT_WEB_APP_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    uploadSuccess = true;
+                } catch (err) {
+                    console.error("Google Web App submission error:", err);
+                }
+            }
+
+            // Always download local audio file copy as backup
             downloadAudioFile(studentName);
             
-            showSuccessModal(studentName, score, passageData.questions.length, "Recording saved to device");
+            showSuccessModal(
+                studentName, 
+                score, 
+                passageData.questions.length, 
+                uploadSuccess ? "Saved to Google Drive & Sheet!" : "Saved locally to device"
+            );
 
             submitBtn.disabled = false;
             submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Submit Assessment`;
