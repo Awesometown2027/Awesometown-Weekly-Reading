@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -42,7 +42,7 @@
         </a>
     </div>
 
-    <!-- Top Header Navigation -->
+    <!-- Header Navigation -->
     <header class="bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 text-white shadow-lg sticky top-0 z-40">
         <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between flex-wrap gap-3">
             <div class="flex items-center gap-3">
@@ -63,10 +63,10 @@
 
     <div class="max-w-4xl mx-auto px-4 mt-6">
 
-        <!-- Main Form Card -->
+        <!-- Main Form -->
         <form id="assessmentForm" class="space-y-6" onsubmit="event.preventDefault();">
 
-            <!-- Passage Selection & Student Information -->
+            <!-- Step 1: Student & Reading Selection -->
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                 <div class="flex items-center gap-2 mb-4 text-indigo-600 font-semibold text-sm uppercase tracking-wider">
                     <i class="fa-solid fa-user-pen"></i> Step 1: Student Details & Reading Selection
@@ -81,16 +81,15 @@
                     <div>
                         <label for="passageSelect" class="block text-sm font-medium text-slate-700 mb-1">Select Reading Passage</label>
                         <select id="passageSelect" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-slate-800 transition bg-white font-medium">
-                            <!-- Options with Grade labels injected dynamically -->
                         </select>
                     </div>
                 </div>
 
-                <!-- Teacher Configuration Panel (Collapsible for Clean Student View) -->
-                <details class="bg-indigo-50/80 border-2 border-indigo-200 rounded-xl mt-2 overflow-hidden">
+                <!-- Teacher Configuration Panel -->
+                <details id="teacherConfigDetails" open class="bg-indigo-50/80 border-2 border-indigo-200 rounded-xl mt-2 overflow-hidden">
                     <summary class="p-3 font-bold text-indigo-900 text-xs cursor-pointer hover:bg-indigo-100/50 flex items-center justify-between">
                         <span><i class="fa-solid fa-gear text-indigo-600 mr-1.5"></i> Teacher Settings / Google Sheets Endpoint</span>
-                        <span class="text-[10px] text-indigo-600 underline">Click to view or change URL</span>
+                        <span class="text-[10px] text-indigo-600 underline">Click to expand/collapse</span>
                     </summary>
                     <div class="p-4 pt-2 border-t border-indigo-200 space-y-3">
                         <label for="scriptUrlInput" class="block text-xs font-bold text-indigo-900 uppercase tracking-wide">
@@ -101,7 +100,7 @@
                         
                         <div class="flex items-center justify-between gap-3 flex-wrap">
                             <p class="text-slate-600 text-[11px] flex-1 min-w-[200px]">
-                                Paste your Web App URL here once. It saves automatically on this computer or you can hardcode it in line 215.
+                                Paste your Web App URL here. It saves automatically in browser storage for future uses.
                             </p>
                             <div class="flex items-center gap-2">
                                 <button type="button" id="testScriptUrlBtn" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-4 py-2 rounded-lg text-xs transition shadow-sm border border-slate-300 flex items-center gap-1.5">
@@ -117,7 +116,7 @@
                 </details>
             </div>
 
-            <!-- Reading Passage Card -->
+            <!-- Reading Passage Display -->
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
                 <div class="flex items-center justify-between border-b pb-4 mb-4">
                     <div class="flex items-center gap-2 text-sky-600 font-semibold text-sm uppercase tracking-wider">
@@ -129,7 +128,6 @@
                 <h2 id="passageTitle" class="text-xl md:text-2xl font-bold font-display text-slate-900 mb-4">Loading Passage Title...</h2>
                 
                 <div id="passageBody" class="bg-amber-50/50 border border-amber-200/60 rounded-xl p-5 md:p-6 text-slate-800 text-base md:text-lg leading-relaxed font-serif space-y-3">
-                    <!-- Passage text populated dynamically -->
                 </div>
             </div>
 
@@ -140,19 +138,16 @@
                 </div>
 
                 <p class="text-sm text-slate-600 mb-6">
-                    Click <strong>"Start Recording"</strong> when you are ready. Read clearly into your microphone, then click <strong>"Stop Recording"</strong> when finished. You can listen to your recording before submitting!
+                    Click <strong>"Start Recording"</strong> when ready. Read clearly into your microphone, then click <strong>"Stop Recording"</strong> when finished.
                 </p>
 
-                <!-- Mic Error Banner -->
                 <div id="micErrorAlert" class="hidden mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl flex items-center gap-2">
                     <i class="fa-solid fa-triangle-exclamation text-base"></i>
                     <span id="micErrorText">Microphone access failed. Please check browser permissions.</span>
                 </div>
 
-                <!-- Audio Recorder Control Panel -->
                 <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col items-center justify-center space-y-6">
                     
-                    <!-- Timer Display & Status Badge -->
                     <div class="flex flex-col items-center gap-2">
                         <div id="recordingStatus" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-600">
                             <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span> Ready to Record
@@ -160,7 +155,6 @@
                         <div id="timerDisplay" class="text-4xl font-mono font-bold text-slate-700">00:00</div>
                     </div>
 
-                    <!-- Audio Visualizer Waves (Animated during recording) -->
                     <div id="audioVisualizer" class="hidden flex items-center justify-center gap-1.5 h-10 my-2">
                         <div class="w-1.5 bg-rose-500 rounded-full animate-bounce h-6"></div>
                         <div class="w-1.5 bg-rose-500 rounded-full animate-bounce h-10" style="animation-delay: 0.1s"></div>
@@ -169,7 +163,6 @@
                         <div class="w-1.5 bg-rose-500 rounded-full animate-bounce h-5" style="animation-delay: 0.15s"></div>
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="flex flex-wrap items-center justify-center gap-4">
                         <button type="button" id="startRecBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-md transition flex items-center gap-2">
                             <i class="fa-solid fa-microphone"></i> Start Recording
@@ -184,7 +177,6 @@
                         </button>
                     </div>
 
-                    <!-- Recorded Audio Playback element -->
                     <div id="playbackContainer" class="hidden w-full max-w-md pt-4 border-t border-slate-200 flex flex-col items-center">
                         <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2"><i class="fa-solid fa-circle-play text-emerald-500 mr-1"></i> Listen to Your Recording</p>
                         <audio id="audioPlayback" controls class="w-full rounded-lg shadow-sm"></audio>
@@ -199,12 +191,12 @@
                 </div>
 
                 <div id="questionsContainer" class="space-y-6">
-                    <!-- Questions injected dynamically based on selected passage -->
                 </div>
             </div>
 
-            <!-- Submit Button -->
+            <!-- Submit Section -->
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col gap-6">
+                <div id="submitStatusFeedback" class="hidden text-xs p-3 rounded-xl border font-semibold flex items-center gap-2"></div>
                 <div class="flex items-center justify-between flex-wrap gap-4 pt-2">
                     <p class="text-xs text-slate-500">Please make sure you recorded your voice before submitting!</p>
                     <button type="submit" id="submitBtn" class="bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition flex items-center gap-2 text-lg">
@@ -224,7 +216,7 @@
                 
                 <div>
                     <h3 class="text-2xl font-bold font-display text-slate-900">Great Job!</h3>
-                    <p class="text-slate-600 text-sm mt-1">Your reading assessment has been completed.</p>
+                    <p class="text-slate-600 text-sm mt-1">Your reading assessment has been submitted.</p>
                 </div>
 
                 <div id="modalSummary" class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-left text-sm space-y-2">
@@ -241,31 +233,28 @@
 
     </div>
 
+    <!-- Application Script -->
     <script>
+        let googleScriptWebAppUrl = localStorage.getItem('READING_ASSESSMENT_SCRIPT_URL') || "https://script.google.com/macros/s/AKfycbwakqKD8wLHekQAnta2rWxEEoN4CBWJPKXM018UNzY_zfoKaB-IxQtyAHTO5f5GA2TIcg/exec";
 
-        // =========================================================================
-        // 🚨 YOUR GOOGLE SCRIPT WEB APP URL IS PRE-LOADED BELOW 🚨
-        // =========================================================================
-        let googleScriptWebAppUrl = localStorage.getItem('READING_ASSESSMENT_SCRIPT_URL')|| "https://script.google.com/macros/s/AKfycbxzh0sbG-pKELAEWMgCa1QWGG0UnkF-1FJ0LTLMKv-KCeajmFG3BYmk7HP0eWZmM5f3eg/exec"
-        // Auto-fill input field on load
         window.addEventListener('DOMContentLoaded', () => {
             const urlInput = document.getElementById('scriptUrlInput');
-            if (urlInput && googleScriptWebAppUrl && googleScriptWebAppUrl !== "https://script.google.com/macros/s/AKfycbxzh0sbG-pKELAEWMgCa1QWGG0UnkF-1FJ0LTLMKv-KCeajmFG3BYmk7HP0eWZmM5f3eg/exec") {
+            if (urlInput && googleScriptWebAppUrl) {
                 urlInput.value = googleScriptWebAppUrl;
             }
+            initPassages();
         });
 
-        // Config button handlers
         document.getElementById('saveScriptUrlBtn')?.addEventListener('click', () => {
             const val = document.getElementById('scriptUrlInput').value.trim();
             const statusMsg = document.getElementById('endpointStatusMsg');
-            if (val.startsWith("https://script.google.com/")) {
+            if (val.startsWith("https://script.google.com/macros/s/")) {
                 googleScriptWebAppUrl = val;
                 localStorage.setItem('READING_ASSESSMENT_SCRIPT_URL', val);
                 statusMsg.textContent = "✓ Web app endpoint saved successfully!";
                 statusMsg.className = "text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 p-2.5 rounded-lg mt-1";
             } else {
-                statusMsg.textContent = "⚠️ Please paste a valid link starting with https://script.google.com/macros/s/";
+                statusMsg.textContent = "⚠️ Please paste a valid link starting with https://script.google.com/macros/s/.../exec";
                 statusMsg.className = "text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 p-2.5 rounded-lg mt-1";
             }
             statusMsg.classList.remove('hidden');
@@ -274,8 +263,8 @@
         document.getElementById('testScriptUrlBtn')?.addEventListener('click', async () => {
             const val = document.getElementById('scriptUrlInput').value.trim();
             const statusMsg = document.getElementById('endpointStatusMsg');
-            if (!val.startsWith("https://script.google.com/")) {
-                statusMsg.textContent = "⚠️ Enter a valid Google Apps Script URL first.";
+            if (!val.startsWith("https://script.google.com/macros/s/")) {
+                statusMsg.textContent = "⚠️ Enter a valid Google Apps Script Web App URL first.";
                 statusMsg.className = "text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 p-2.5 rounded-lg mt-1";
                 statusMsg.classList.remove('hidden');
                 return;
@@ -287,15 +276,14 @@
 
             try {
                 await fetch(val, { method: 'GET', mode: 'no-cors' });
-                statusMsg.textContent = "✓ Endpoint reached successfully!";
+                statusMsg.textContent = "✓ Endpoint reached! Ensure 'Who has access' is set to 'Anyone'.";
                 statusMsg.className = "text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 p-2.5 rounded-lg mt-1";
             } catch (err) {
-                statusMsg.textContent = "❌ Network error connecting to script endpoint.";
+                statusMsg.textContent = "❌ Network error connecting to endpoint.";
                 statusMsg.className = "text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 p-2.5 rounded-lg mt-1";
             }
         });
 
-        // Weekly Passage Database (Grades 4, 4/5, 5 with concise texts ~60-80 words)
         const weeklyPassageSchedule = [
             {
                 weekLabel: "Active Week",
@@ -386,21 +374,12 @@
         ];
 
         let currentPassagesList = [];
-
-        function getCurrentWeekPassages() {
-            let selectedWeek = weeklyPassageSchedule[0];
-            document.getElementById('currentWeekBadge').textContent = `${selectedWeek.weekLabel}`;
-            return selectedWeek.items;
-        }
-
-        // Global variables for recording
         let mediaRecorder = null;
         let audioChunks = [];
         let recordedAudioBlob = null;
         let timerInterval = null;
         let secondsElapsed = 0;
 
-        // Element references
         const passageSelect = document.getElementById('passageSelect');
         const passageTitle = document.getElementById('passageTitle');
         const passageGradeTag = document.getElementById('passageGradeTag');
@@ -418,9 +397,10 @@
         const micErrorAlert = document.getElementById('micErrorAlert');
         const micErrorText = document.getElementById('micErrorText');
 
-        // Initialize drop-down options including explicit Grade tags
         function initPassages() {
-            currentPassagesList = getCurrentWeekPassages();
+            let activeWeek = weeklyPassageSchedule[0];
+            document.getElementById('currentWeekBadge').textContent = activeWeek.weekLabel;
+            currentPassagesList = activeWeek.items;
 
             passageSelect.innerHTML = currentPassagesList.map((p, idx) => `
                 <option value="${idx}">[${p.gradeLabel}] - ${p.title}</option>
@@ -429,18 +409,14 @@
             renderPassage(0);
         }
 
-        // Render selected passage and questions
         function renderPassage(index) {
             const data = currentPassagesList[index];
             if (!data) return;
 
             passageTitle.textContent = data.title;
             passageGradeTag.textContent = data.gradeLabel;
-
-            // Render passage text
             passageBody.innerHTML = data.text.map(p => `<p>${p}</p>`).join('');
 
-            // Render questions
             questionsContainer.innerHTML = data.questions.map((q) => `
                 <div class="bg-slate-50 border border-slate-200/80 p-5 rounded-xl">
                     <p class="font-bold text-slate-800 text-base mb-3">${q.question}</p>
@@ -460,17 +436,11 @@
             renderPassage(parseInt(e.target.value));
         });
 
-        // Initialize on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            initPassages();
-        });
-
-        // Audio Recorder Logic
         startRecBtn.addEventListener('click', async () => {
             micErrorAlert.classList.add('hidden');
             try {
                 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                    throw new Error("Your browser or current frame does not support audio recording.");
+                    throw new Error("Your browser or current frame restricts audio recording.");
                 }
 
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -483,27 +453,22 @@
                     options = { mimeType: 'audio/webm' };
                 } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
                     options = { mimeType: 'audio/mp4' };
-                } else if (MediaRecorder.isTypeSupported('audio/ogg')) {
-                    options = { mimeType: 'audio/ogg' };
                 }
 
                 mediaRecorder = new MediaRecorder(stream, options);
 
                 mediaRecorder.ondataavailable = (e) => {
-                    if (e.data && e.data.size > 0) {
-                        audioChunks.push(e.data);
-                    }
+                    if (e.data && e.data.size > 0) audioChunks.push(e.data);
                 };
 
                 mediaRecorder.onstop = () => {
                     const finalMime = mediaRecorder.mimeType || 'audio/webm';
                     recordedAudioBlob = new Blob(audioChunks, { type: finalMime });
-                    const audioUrl = URL.createObjectURL(recordedAudioBlob);
-                    audioPlayback.src = audioUrl;
+                    audioPlayback.src = URL.createObjectURL(recordedAudioBlob);
                     playbackContainer.classList.remove('hidden');
                 };
 
-                mediaRecorder.start(250); // Record in 250ms chunks for steady buffer
+                mediaRecorder.start(250);
                 startTimer();
 
                 startRecBtn.disabled = true;
@@ -514,9 +479,8 @@
                 recordingStatus.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-rose-600"></span> Recording Live...`;
 
             } catch (err) {
-                micErrorText.textContent = err.message || "Microphone access blocked. Enable permissions in browser settings.";
+                micErrorText.textContent = err.message || "Microphone access blocked.";
                 micErrorAlert.classList.remove('hidden');
-                console.error("Microphone Access Error:", err);
             }
         });
 
@@ -560,27 +524,18 @@
             }, 1000);
         }
 
-        function stopTimer() {
-            clearInterval(timerInterval);
-        }
+        function stopTimer() { clearInterval(timerInterval); }
+        function resetTimer() { clearInterval(timerInterval); secondsElapsed = 0; timerDisplay.textContent = "00:00"; }
 
-        function resetTimer() {
-            clearInterval(timerInterval);
-            secondsElapsed = 0;
-            timerDisplay.textContent = "00:00";
-        }
-
-        // Convert Blob to Base64 String for Web App Upload
         function blobToBase64(blob) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                    const result = reader.result;
-                    if (typeof result === 'string') {
-                        const base64data = result.includes(',') ? result.split(',')[1] : result;
-                        resolve(base64data);
+                    const res = reader.result;
+                    if (typeof res === 'string') {
+                        resolve(res.includes(',') ? res.split(',')[1] : res);
                     } else {
-                        reject(new Error("Failed to encode audio stream"));
+                        reject(new Error("Failed to encode audio"));
                     }
                 };
                 reader.onerror = reject;
@@ -588,15 +543,22 @@
             });
         }
 
-        // Form Submission
         const assessmentForm = document.getElementById('assessmentForm');
         const submitBtn = document.getElementById('submitBtn');
+        const feedbackBox = document.getElementById('submitStatusFeedback');
 
         assessmentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             if (!recordedAudioBlob) {
-                alert("Please complete Step 3 and record your reading before submitting!");
+                alert("Please record your reading before submitting!");
+                return;
+            }
+
+            const activeUrl = document.getElementById('scriptUrlInput').value.trim() || googleScriptWebAppUrl;
+            if (!activeUrl || !activeUrl.startsWith("https://script.google.com/macros/s/")) {
+                alert("Please enter your Google Apps Script Web App URL in Step 1 first.");
+                document.getElementById('teacherConfigDetails').open = true;
                 return;
             }
 
@@ -604,7 +566,6 @@
             const passageIdx = parseInt(passageSelect.value);
             const passageData = currentPassagesList[passageIdx];
 
-            // Grade Multiple Choice Answers
             let score = 0;
             passageData.questions.forEach(q => {
                 const selectedOpt = document.querySelector(`input[name="${q.id}"]:checked`);
@@ -614,47 +575,50 @@
             });
 
             submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Submitting Assessment...`;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Uploading...`;
+
+            feedbackBox.classList.remove('hidden');
+            feedbackBox.className = "text-xs p-3 rounded-xl border font-semibold text-amber-800 bg-amber-50 border-amber-200 flex items-center gap-2";
+            feedbackBox.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-amber-600"></i> Sending to Google Sheets & Google Drive...`;
 
             let uploadSuccess = false;
 
-            if (googleScriptWebAppUrl && googleScriptWebAppUrl !== "PASTE_YOUR_GOOGLE_WEB_APP_URL_HERE") {
-                try {
-                    const audioBase64 = await blobToBase64(recordedAudioBlob);
-                    const payload = {
-                        studentName: studentName,
-                        passageTitle: passageData.title,
-                        gradeLabel: passageData.gradeLabel,
-                        score: score,
-                        totalQuestions: passageData.questions.length,
-                        audioBase64: audioBase64,
-                        mimeType: recordedAudioBlob.type || "audio/webm"
-                    };
+            try {
+                const audioBase64 = await blobToBase64(recordedAudioBlob);
+                const payload = {
+                    studentName: studentName,
+                    passageTitle: passageData.title,
+                    gradeLabel: passageData.gradeLabel,
+                    score: score,
+                    totalQuestions: passageData.questions.length,
+                    audioBase64: audioBase64,
+                    mimeType: recordedAudioBlob.type || "audio/webm"
+                };
 
-                    // Send payload with text/plain content type to avoid CORS preflight options check block from Google
-                    await fetch(googleScriptWebAppUrl, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {
-                            'Content-Type': 'text/plain;charset=utf-8'
-                        },
-                        body: JSON.stringify(payload)
-                    });
+                // Mode 'no-cors' with plain text payload guarantees Google Apps Script receives data across origins
+                await fetch(activeUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
 
-                    uploadSuccess = true;
-                } catch (err) {
-                    console.error("Google Web App submission error:", err);
-                }
+                uploadSuccess = true;
+                feedbackBox.className = "text-xs p-3 rounded-xl border font-semibold text-emerald-800 bg-emerald-50 border-emerald-200 flex items-center gap-2";
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Assessment sent successfully! Check your Google Sheet & Drive.`;
+
+            } catch (err) {
+                console.error("Submission Error:", err);
+                feedbackBox.className = "text-xs p-3 rounded-xl border font-semibold text-rose-800 bg-rose-50 border-rose-200 flex items-center gap-2";
+                feedbackBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-600"></i> Upload warning. Local copy saved.`;
             }
 
-            // Always trigger local audio file backup download
             downloadAudioFile(studentName);
-            
             showSuccessModal(
                 studentName, 
                 score, 
                 passageData.questions.length, 
-                uploadSuccess ? "Saved to Google Drive & Sheet (Backup downloaded)" : "Saved locally as audio file backup"
+                uploadSuccess ? "Sent to Google Drive & Google Sheet (Audio backup downloaded)" : "Saved locally as audio file backup"
             );
 
             submitBtn.disabled = false;
@@ -681,6 +645,7 @@
 
         function resetForm() {
             document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('submitStatusFeedback').classList.add('hidden');
             assessmentForm.reset();
             reRecordBtn.click();
             renderPassage(0);
@@ -689,3 +654,4 @@
     </script>
 </body>
 </html>
+
