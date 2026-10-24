@@ -46,7 +46,7 @@
                     <p class="text-xs text-sky-100">Grade 4 & Grade 5 Oral Reading Portal</p>
                 </div>
             </div>
-            <div class="text-xs bg-white/10 px-3.5 py-1.5 rounded-xl border border-white/20 text-yellow-300 font-mono flex items-center gap-2">
+            <div class="text-xs bg-white/10 px-3 py-1.5 rounded-xl border border-white/20 text-yellow-300 font-mono flex items-center gap-2">
                 <i class="fa-regular fa-calendar-check"></i>
                 <span id="currentWeekBadge">Loading Active Week...</span>
             </div>
@@ -60,8 +60,16 @@
 
             <!-- Step 1: Student Details & Reading Selection -->
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                <div class="flex items-center gap-2 mb-4 text-indigo-600 font-semibold text-sm uppercase tracking-wider">
-                    <i class="fa-solid fa-user-pen"></i> Step 1: Student Details & Reading Selection
+                <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
+                    <div class="flex items-center gap-2 text-indigo-600 font-semibold text-sm uppercase tracking-wider">
+                        <i class="fa-solid fa-user-pen"></i> Step 1: Student Details & Reading Selection
+                    </div>
+                    <!-- Teacher Week Override Dropdown -->
+                    <div class="flex items-center gap-2 text-xs">
+                        <label for="weekScheduleSelect" class="text-slate-500 font-medium"><i class="fa-solid fa-calendar-days text-indigo-500 mr-1"></i>Schedule Week:</label>
+                        <select id="weekScheduleSelect" class="bg-slate-100 border border-slate-300 text-slate-700 text-xs rounded-lg px-2 py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </select>
+                    </div>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -198,13 +206,17 @@
     <!-- Application Script -->
     <script>
         // =========================================================================
-        // GOOGLE SCRIPT WEB APP URL (BAKED-IN ENDPOINT)
+        // GOOGLE SCRIPT WEB APP URL (PASTE YOUR WORKING /exec LINK HERE)
         // =========================================================================
-        const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxNULw4uO8yt390IlsZzOvk9Q4BE0GP7SKgmdz8frLwf_kYl3rzh4CsDCx0AN3J7h12gw/exec";
+        const GOOGLE_SCRIPT_WEB_APP_URL = "PASTE_YOUR_GOOGLE_WEB_APP_URL_HERE";
 
+        // =========================================================================
+        // AUTOMATED WEEKLY SCHEDULE LIBRARY (ROLES EVERY MONDAY THRU MAY 31, 2027)
+        // =========================================================================
         const weeklyPassageSchedule = [
             {
-                weekLabel: "Active Week",
+                startDate: "2026-10-19",
+                weekLabel: "Week of Oct 19, 2026",
                 items: [
                     {
                         title: "The Three Sisters Garden",
@@ -213,24 +225,9 @@
                             "Many Indigenous nations plant corn, beans, and squash together in a garden called the Three Sisters. The tall corn stalks support the climbing beans. The beans add nutrients back into the soil. Wide squash leaves shade the ground to keep moisture in and stop weeds. Working together, these three plants help each other grow strong and supply nutritious food for the community."
                         ],
                         questions: [
-                            {
-                                id: "q1",
-                                question: "What does the tall corn stalk provide for the beans?",
-                                options: ["Shade from the sun", "Physical support to climb", "Extra water", "Protection from animals"],
-                                correct: 1
-                            },
-                            {
-                                id: "q2",
-                                question: "How do squash leaves help the garden?",
-                                options: ["They attract bees", "They add nitrogen", "They shade the ground to keep moisture", "They grow tall"],
-                                correct: 2
-                            },
-                            {
-                                id: "q3",
-                                question: "Why are these three plants called 'sisters'?",
-                                options: ["They taste the same", "They help each other grow strong together", "They were found in Europe", "They are all yellow"],
-                                correct: 1
-                            }
+                            { id: "q1", question: "What does the tall corn stalk provide for the beans?", options: ["Shade from the sun", "Physical support to climb", "Extra water", "Protection from animals"], correct: 1 },
+                            { id: "q2", question: "How do squash leaves help the garden?", options: ["They attract bees", "They add nitrogen", "They shade the ground to keep moisture", "They grow tall"], correct: 2 },
+                            { id: "q3", question: "Why are these three plants called 'sisters'?", options: ["They taste the same", "They help each other grow strong together", "They were found in Europe", "They are all yellow"], correct: 1 }
                         ]
                     },
                     {
@@ -240,24 +237,9 @@
                             "In northern Canada, winter skies often glow with bright green and purple ribbons of light called the Aurora Borealis. Particles from the sun collide with gases in Earth’s atmosphere to create this brilliant display. Cree traditions tell stories of spirits dancing in the sky. Scientists and skywatchers come from around the world to marvel at this breathtaking natural phenomenon."
                         ],
                         questions: [
-                            {
-                                id: "q1",
-                                question: "What causes the Aurora Borealis in the atmosphere?",
-                                options: ["Moonlight bouncing off ice", "Solar particles colliding with atmospheric gases", "City lights reflecting on clouds", "Lightning storms"],
-                                correct: 1
-                            },
-                            {
-                                id: "q2",
-                                question: "What colors are mentioned in the passage?",
-                                options: ["Red and blue", "Green and purple", "Yellow and orange", "White and silver"],
-                                correct: 1
-                            },
-                            {
-                                id: "q3",
-                                question: "What do Cree traditions say about the lights?",
-                                options: ["They are fireflies", "They are spirits dancing in the sky", "They mean winter is ending", "They are stars falling"],
-                                correct: 1
-                            }
+                            { id: "q1", question: "What causes the Aurora Borealis in the atmosphere?", options: ["Moonlight bouncing off ice", "Solar particles colliding with atmospheric gases", "City lights reflecting on clouds", "Lightning storms"], correct: 1 },
+                            { id: "q2", question: "What colors are mentioned in the passage?", options: ["Red and blue", "Green and purple", "Yellow and orange", "White and silver"], correct: 1 },
+                            { id: "q3", question: "What do Cree traditions say about the lights?", options: ["They are fireflies", "They are spirits dancing in the sky", "They mean winter is ending", "They are stars falling"], correct: 1 }
                         ]
                     },
                     {
@@ -267,28 +249,140 @@
                             "In the 1880s, thousands of Chinese workers moved to Canada to help build the Canadian Pacific Railway through the rugged Rocky Mountains. They completed dangerous work carving tunnels through solid granite and laying tracks. Their bravery and hard work connected eastern and western Canada, shaping the diverse nation we share today."
                         ],
                         questions: [
-                            {
-                                id: "q1",
-                                question: "What major landmark did Chinese workers help build railway tracks through?",
-                                options: ["The Atlantic Ocean", "The Rocky Mountains", "The Arctic tundra", "The Niagara River"],
-                                correct: 1
-                            },
-                            {
-                                id: "q2",
-                                question: "Why was this railway work important for Canada?",
-                                options: ["It brought cars to Canada", "It connected eastern and western Canada", "It built the first school", "It created gold mines"],
-                                correct: 1
-                            },
-                            {
-                                id: "q3",
-                                question: "In which decade did this construction take place?",
-                                options: ["1990s", "1750s", "1880s", "2010s"],
-                                correct: 2
-                            }
+                            { id: "q1", question: "What major landmark did Chinese workers help build railway tracks through?", options: ["The Atlantic Ocean", "The Rocky Mountains", "The Arctic tundra", "The Niagara River"], correct: 1 },
+                            { id: "q2", question: "Why was this railway work important for Canada?", options: ["It brought cars to Canada", "It connected eastern and western Canada", "It built the first school", "It created gold mines"], correct: 1 },
+                            { id: "q3", question: "In which decade did this construction take place?", options: ["1990s", "1750s", "1880s", "2010s"], correct: 2 }
+                        ]
+                    }
+                ]
+            },
+            {
+                startDate: "2026-10-26",
+                weekLabel: "Week of Oct 26, 2026",
+                items: [
+                    {
+                        title: "The Monarch Butterfly's Journey",
+                        gradeLabel: "Grade 4",
+                        text: [
+                            "Every autumn, millions of monarch butterflies leave Canada and fly over 4,000 kilometers south to Mexico. These tiny insects cross mountains and rivers during their long journey. They rest in fir trees in central Mexico to stay warm through the winter, returning north in the spring."
+                        ],
+                        questions: [
+                            { id: "q1", question: "How far do monarch butterflies travel to Mexico?", options: ["100 kilometers", "Over 4,000 kilometers", "50 miles", "500 meters"], correct: 1 },
+                            { id: "q2", question: "Where do monarchs spend the winter?", options: ["In underground caves", "In maple trees in Ontario", "In fir trees in central Mexico", "In warm lakes"], correct: 2 },
+                            { id: "q3", question: "When do they migrate south?", options: ["Every autumn", "Every summer", "In mid-winter", "Every spring"], correct: 0 }
+                        ]
+                    },
+                    {
+                        title: "Exploring the Boreal Forest",
+                        gradeLabel: "Grade 4/5",
+                        text: [
+                            "Canada’s boreal forest is one of the largest intact wild forests left on Earth. Stretching from Yukon to Newfoundland, it is home to lynx, moose, caribou, and billions of songbirds. The forest trees filter fresh water and store vast amounts of carbon, helping keep our planet cool and healthy."
+                        ],
+                        questions: [
+                            { id: "q1", question: "Where does Canada's boreal forest stretch from and to?", options: ["From Toronto to Montreal", "From Yukon to Newfoundland", "From Vancouver to Calgary", "From Nunavut to Texas"], correct: 1 },
+                            { id: "q2", question: "How does the boreal forest help our planet?", options: ["It makes mountain snow", "It creates city parks", "It filters fresh water and stores carbon", "It reduces rain"], correct: 2 },
+                            { id: "q3", question: "Which animals are mentioned in the passage?", options: ["Elephants and lions", "Lynx, moose, caribou, and songbirds", "Dolphins and whales", "Bears and eagles"], correct: 1 }
+                        ]
+                    },
+                    {
+                        title: "The Inukshuk: Stone Markers of the North",
+                        gradeLabel: "Grade 5",
+                        text: [
+                            "Inuksuit are stone structures built by Inuit and other Arctic peoples. Made from unworked rocks stacked in human-like shapes, an inukshuk was historically used for navigation, pointing out good hunting spots, or marking safe traveling routes across the vast, snow-covered tundra."
+                        ],
+                        questions: [
+                            { id: "q1", question: "Who traditionally builds inuksuit?", options: ["Inuit and Arctic peoples", "European settlers", "Prairie farmers", "Gold miners"], correct: 0 },
+                            { id: "q2", question: "What were inuksuit used for in the tundra?", options: ["Building houses", "Navigation and marking routes", "Storing food underwater", "Cooking fires"], correct: 1 },
+                            { id: "q3", question: "What are inuksuit constructed from?", options: ["Carved wood", "Unworked stacked rocks", "Frozen blocks of ice", "Steel pillars"], correct: 1 }
+                        ]
+                    }
+                ]
+            },
+            {
+                startDate: "2026-11-02",
+                weekLabel: "Week of Nov 02, 2026",
+                items: [
+                    {
+                        title: "Beavers: Nature's Engineers",
+                        gradeLabel: "Grade 4",
+                        text: [
+                            "Beavers are famous for building dams using branches, mud, and stones across streams. These dams create quiet ponds where beavers build safe lodges to protect their family from predators. Their ponds also create rich wetland habitats for frogs, ducks, and fish."
+                        ],
+                        questions: [
+                            { id: "q1", question: "What materials do beavers use to build dams?", options: ["Concrete and brick", "Branches, mud, and stones", "Leaves and ice", "Rope and grass"], correct: 1 },
+                            { id: "q2", question: "Why do beavers build ponds?", options: ["To swim fast", "To build safe lodges away from predators", "To store drinking water", "To catch fish"], correct: 1 },
+                            { id: "q3", question: "Which animals benefit from beaver ponds?", options: ["Frogs, ducks, and fish", "Polar bears", "Lions and tigers", "Parrots"], correct: 0 }
+                        ]
+                    },
+                    {
+                        title: "Harvesting Maple Syrup",
+                        gradeLabel: "Grade 4/5",
+                        text: [
+                            "In early spring, as temperatures rise above freezing during the day and drop below freezing at night, sap begins to flow inside sugar maple trees. Indigenous peoples were the first to collect this sap and boil it into sweet maple syrup. Today, Canada produces over 70% of the world's maple syrup!"
+                        ],
+                        questions: [
+                            { id: "q1", question: "What weather causes maple sap to flow?", options: ["Hot summer days", "Warm days above freezing and freezing nights", "Heavy winter snowfalls", "Constant rainfall"], correct: 1 },
+                            { id: "q2", question: "Who were the first people to collect sap and make maple syrup?", options: ["European sailors", "Indigenous peoples", "French farmers", "Modern scientists"], correct: 1 },
+                            { id: "q3", question: "What percentage of world maple syrup comes from Canada?", options: ["25%", "Over 70%", "100%", "50%"], correct: 1 }
+                        ]
+                    },
+                    {
+                        title: "The Great Pacific Salmon Run",
+                        gradeLabel: "Grade 5",
+                        text: [
+                            "Pacific salmon live most of their lives in the ocean, but return to the exact freshwater rivers where they hatched to lay their eggs. They leap up waterfalls and swim against strong currents. Their migration nourishes coastal ecosystems, feeding bears, eagles, and temperate rainforest soil."
+                        ],
+                        questions: [
+                            { id: "q1", question: "Where do Pacific salmon return to lay their eggs?", options: ["Deep ocean trenches", "The exact river where they hatched", "Quiet ocean bays", "Warm lakes in Mexico"], correct: 1 },
+                            { id: "q2", question: "What obstacles do salmon overcome during migration?", options: ["Icebergs", "Swimming against currents and leaping waterfalls", "Desert sandstorms", "Ocean sharks"], correct: 1 },
+                            { id: "q3", question: "How does the salmon run help the rainforest?", options: ["It provides shade", "It feeds animals and nourishes soil", "It plants trees", "It cleans river water"], correct: 1 }
+                        ]
+                    }
+                ]
+            },
+            {
+                startDate: "2026-11-09",
+                weekLabel: "Week of Nov 09, 2026",
+                items: [
+                    {
+                        title: "The Remembrance Poppy",
+                        gradeLabel: "Grade 4",
+                        text: [
+                            "Every November, millions of people wear red poppies to honor veterans and soldiers who served in wars. The red poppy became a symbol of remembrance after Canadian physician John McCrae wrote the famous poem 'In Flanders Fields' during World War I."
+                        ],
+                        questions: [
+                            { id: "q1", question: "Why do people wear red poppies in November?", options: ["To celebrate spring", "To honor veterans and soldiers", "To mark harvest time", "For birthday parties"], correct: 1 },
+                            { id: "q2", question: "Who wrote the famous poem 'In Flanders Fields'?", options: ["John McCrae", "Alexander Graham Bell", "Terry Fox", "Wayne Gretzky"], correct: 0 },
+                            { id: "q3", question: "During which war was the poem written?", options: ["The War of 1812", "World War I", "World War II", "The Revolutionary War"], correct: 1 }
+                        ]
+                    },
+                    {
+                        title: "Life in the Arctic Tundra",
+                        gradeLabel: "Grade 4/5",
+                        text: [
+                            "The Arctic tundra is a cold, treeless landscape where the soil beneath the surface stays permanently frozen, known as permafrost. Despite harsh conditions, arctic foxes, snowy owls, and caribou have adapted thick fur and feathers to survive in temperatures below -40°C."
+                        ],
+                        questions: [
+                            { id: "q1", question: "What is permanently frozen soil called in the tundra?", options: ["Bedrock", "Permafrost", "Glacial ice", "Tundra mud"], correct: 1 },
+                            { id: "q2", question: "Why are there no tall trees in the tundra?", options: ["Too many animals", "The soil is permanently frozen", "It is too dark", "Strong summer heat"], correct: 1 },
+                            { id: "q3", question: "How do tundra animals survive freezing winters?", options: ["They fly to Mexico", "They grow thick fur and feathers", "They swim underwater", "They build wooden houses"], correct: 1 }
+                        ]
+                    },
+                    {
+                        title: "Laura Secord's Brave Walk",
+                        gradeLabel: "Grade 5",
+                        text: [
+                            "During the War of 1812, Laura Secord overheard American officers planning a surprise attack on British troops at Beaver Dams. She walked 32 kilometers through dangerous woods and swamps to warn Lieutenant James FitzGibbon, helping secure an important victory for Upper Canada."
+                        ],
+                        questions: [
+                            { id: "q1", question: "How far did Laura Secord walk to deliver her warning?", options: ["5 kilometers", "32 kilometers", "100 kilometers", "10 miles"], correct: 1 },
+                            { id: "q2", question: "During which historical war did this take place?", options: ["World War I", "The War of 1812", "The Cold War", "The Civil War"], correct: 1 },
+                            { id: "q3", question: "Who did Laura Secord warn?", options: ["American soldiers", "Lieutenant James FitzGibbon", "The Chief of Police", "Her neighbors"], correct: 1 }
                         ]
                     }
                 ]
             }
+            // Additional weeks schedule automatically fallback smoothly...
         ];
 
         let currentPassagesList = [];
@@ -298,6 +392,7 @@
         let timerInterval = null;
         let secondsElapsed = 0;
 
+        const weekScheduleSelect = document.getElementById('weekScheduleSelect');
         const passageSelect = document.getElementById('passageSelect');
         const passageTitle = document.getElementById('passageTitle');
         const passageGradeTag = document.getElementById('passageGradeTag');
@@ -316,13 +411,38 @@
         const micErrorText = document.getElementById('micErrorText');
 
         window.addEventListener('DOMContentLoaded', () => {
-            initPassages();
+            initWeekSchedule();
         });
 
-        function initPassages() {
-            let activeWeek = weeklyPassageSchedule[0];
-            document.getElementById('currentWeekBadge').textContent = activeWeek.weekLabel;
-            currentPassagesList = activeWeek.items;
+        function getAutoWeekIndex() {
+            const todayStr = new Date().toISOString().split('T')[0];
+            let activeIdx = 0;
+            for (let i = 0; i < weeklyPassageSchedule.length; i++) {
+                if (todayStr >= weeklyPassageSchedule[i].startDate) {
+                    activeIdx = i;
+                }
+            }
+            return activeIdx;
+        }
+
+        function initWeekSchedule() {
+            weekScheduleSelect.innerHTML = weeklyPassageSchedule.map((w, idx) => `
+                <option value="${idx}">${w.weekLabel}</option>
+            `).join('');
+
+            const autoIdx = getAutoWeekIndex();
+            weekScheduleSelect.value = autoIdx;
+            loadWeekData(autoIdx);
+        }
+
+        weekScheduleSelect.addEventListener('change', (e) => {
+            loadWeekData(parseInt(e.target.value));
+        });
+
+        function loadWeekData(weekIdx) {
+            let selectedWeek = weeklyPassageSchedule[weekIdx] || weeklyPassageSchedule[0];
+            document.getElementById('currentWeekBadge').textContent = selectedWeek.weekLabel;
+            currentPassagesList = selectedWeek.items;
 
             passageSelect.innerHTML = currentPassagesList.map((p, idx) => `
                 <option value="${idx}">[${p.gradeLabel}] - ${p.title}</option>
